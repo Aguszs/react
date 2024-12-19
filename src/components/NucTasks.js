@@ -1,7 +1,5 @@
-// src/components/NucTasks.js
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { TaskContext } from "../context/TaskContext";
 
 // Estilos con Styled-Components
 const Container = styled.div`
@@ -99,12 +97,32 @@ const ClearButton = styled.button`
 
 // Componente principal
 const NucTasks = () => {
+  const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
-  const { tasks, addTask, deleteTask, clearTasks } = useContext(TaskContext);
+  const [error, setError] = useState(""); // Estado para el mensaje de error
 
-  const handleAddTask = () => {
-    addTask(newTask);
+  const addTask = () => {
+    if (newTask.trim() === "") {
+      setError("La tarea no puede estar vacía.");
+      return;
+    }
+
+    if (tasks.includes(newTask.trim())) {
+      setError("La tarea ya existe en la lista.");
+      return;
+    }
+
+    setTasks([...tasks, newTask.trim()]);
     setNewTask("");
+    setError(""); // Limpia el error al agregar correctamente
+  };
+
+  const deleteTask = (index) => {
+    setTasks(tasks.filter((_, i) => i !== index));
+  };
+
+  const clearTasks = () => {
+    setTasks([]);
   };
 
   return (
@@ -117,8 +135,9 @@ const NucTasks = () => {
           value={newTask}
           onChange={(e) => setNewTask(e.target.value)}
         />
-        <AddButton onClick={handleAddTask}>Agregar</AddButton>
+        <AddButton onClick={addTask}>Agregar</AddButton>
       </InputContainer>
+      {error && <p style={{ color: "red", marginTop: "5px" }}>{error}</p>}
       <TaskList>
         {tasks.map((task, index) => (
           <TaskItem key={index}>
