@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+
 // Estilos con Styled-Components
 const Container = styled.div`
   display: flex;
@@ -95,53 +96,50 @@ const ClearButton = styled.button`
   }
 `;
 
+
+
+
 // Componente principal
 const NucTasks = () => {
-  const [tasks, setTasks] = useState([]);
-  const [newTask, setNewTask] = useState("");
+  const [tasks, setTasks] = useState([]); // Estado para la lista de tareas
+  const [newTask, setNewTask] = useState(''); // Estado para el valor del input
+  const [error, setError] = useState(''); // Estado para el mensaje de error
 
-  const addTask = () => {
-    if (newTask.trim()) {
-      setTasks([...tasks, newTask]);
-      setNewTask("");
-    }
-  };
-
-  const deleteTask = (index) => {
-    setTasks(tasks.filter((_, i) => i !== index));
-  };
-
-  const clearTasks = () => {
-    setTasks([]);
-  };
-
-  return (
-    <Container>
-      <Title>NucTasks</Title>
-      <InputContainer>
-        <Input
-          type="text"
-          placeholder="¿Qué tarea desea agregar?"
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
-        />
-        <AddButton onClick={addTask}>Agregar</AddButton>
-      </InputContainer>
-      <TaskList>
-        {tasks.map((task, index) => (
-          <TaskItem key={index}>
-            {task}
-            <DeleteButton onClick={() => deleteTask(index)}>Borrar</DeleteButton>
-          </TaskItem>
-        ))}
-      </TaskList>
-      {tasks.length > 0 && (
-        <ClearButton onClick={clearTasks}>Borrar todas</ClearButton>
-      )}
-    </Container>
-  );
+ // Función para manejar el cambio en el input
+ const handleInputChange = (event) => {
+  setNewTask(event.target.value);
+  setError(''); // Limpiar el mensaje de error cuando se cambia el input
 };
 
-export default NucTasks;
+// Función para agregar la tarea
+const handleAddTask = () => {
+  if (tasks.includes(newTask)) {
+    setError('Esta tarea ya está en la lista'); // Mostrar mensaje de error
+  } else if (newTask.trim() !== '') {
+    setTasks([...tasks, newTask]); // Agregar la tarea a la lista
+    setNewTask(''); // Limpiar el input
+  }
+};
 
+return (
+  <div>
+    <h1>Lista de Tareas</h1>
+    <input
+      type="text"
+      value={newTask}
+      onChange={handleInputChange}
+      placeholder="Agregar nueva tarea"
+    />
+    <button onClick={handleAddTask}>Agregar tarea</button>
 
+    {/* Mostrar mensaje de error si hay un duplicado */}
+    {error && <p style={{ color: 'red' }}>{error}</p>}
+
+    <ul>
+      {tasks.map((task, index) => (
+        <li key={index}>{task}</li>
+      ))}
+    </ul>
+  </div>
+);
+}
