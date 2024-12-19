@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+// src/components/NucTasks.js
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
+import { TaskContext } from "../context/TaskContext";
 
 // Estilos con Styled-Components
 const Container = styled.div`
@@ -97,22 +99,12 @@ const ClearButton = styled.button`
 
 // Componente principal
 const NucTasks = () => {
-  const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
+  const { tasks, addTask, deleteTask, clearTasks } = useContext(TaskContext);
 
-  const addTask = () => {
-    if (newTask.trim()) {
-      setTasks([...tasks, newTask]);
-      setNewTask("");
-    }
-  };
-
-  const deleteTask = (index) => {
-    setTasks(tasks.filter((_, i) => i !== index));
-  };
-
-  const clearTasks = () => {
-    setTasks([]);
+  const handleAddTask = () => {
+    addTask(newTask);
+    setNewTask("");
   };
 
   return (
@@ -125,7 +117,7 @@ const NucTasks = () => {
           value={newTask}
           onChange={(e) => setNewTask(e.target.value)}
         />
-        <AddButton onClick={addTask}>Agregar</AddButton>
+        <AddButton onClick={handleAddTask}>Agregar</AddButton>
       </InputContainer>
       <TaskList>
         {tasks.map((task, index) => (
@@ -143,5 +135,3 @@ const NucTasks = () => {
 };
 
 export default NucTasks;
-
-
