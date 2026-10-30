@@ -147,24 +147,26 @@ const NucTasks = () => {
       <Form onSubmit={handleSubmit}>
         <Input
           type="text"
-          placeholder="¿Qué tarea desea agregar?"
+          placeholder="¿Qué tarea querés agregar?"
           aria-label="Nueva tarea"
           value={newTask}
           onChange={handleChange}
+          aria-invalid={Boolean(error)}
+          aria-describedby={error ? "task-error" : undefined}
         />
         <AddButton type="submit">Agregar</AddButton>
       </Form>
 
-      {error && <ErrorMessage role="alert">{error}</ErrorMessage>}
+      {error && <ErrorMessage id="task-error" role="alert">{error}</ErrorMessage>}
 
       {tasks.length === 0 ? (
         <EmptyMessage>Todavía no agregaste tareas.</EmptyMessage>
       ) : (
         <>
-          <Counter>
+          <Counter aria-live="polite" aria-atomic="true">
             {pending} {pending === 1 ? "pendiente" : "pendientes"} de {tasks.length}
           </Counter>
-          <TaskList>
+          <TaskList aria-label="Lista de tareas">
             {tasks.map((task) => (
               <TaskItem key={task.id}>
                 <TaskLabel $done={task.done}>
