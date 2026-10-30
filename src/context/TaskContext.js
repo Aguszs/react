@@ -8,7 +8,23 @@ const TaskContext = createContext(null);
 const loadTasks = () => {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    return Array.isArray(saved) ? saved : [];
+    if (!Array.isArray(saved)) return [];
+
+    const seenIds = new Set();
+    return saved.filter(task => {
+      if (
+        !task ||
+        typeof task.id !== "string" ||
+        typeof task.text !== "string" ||
+        typeof task.done !== "boolean" ||
+        !task.text.trim() ||
+        seenIds.has(task.id)
+      ) {
+        return false;
+      }
+      seenIds.add(task.id);
+      return true;
+    }).map(task => ({ ...task, text: task.text.trim() }));
   } catch {
     return [];
   }
