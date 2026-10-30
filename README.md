@@ -1,13 +1,13 @@
-# NucTasks ✅
+# NucTasks
 
-Lista de tareas hecha con **React**. Proyecto de práctica del curso FullStack en Nucba.
+Aplicación de tareas desarrollada con React como proyecto de práctica del curso FullStack de Nucba.
 
 ## Funcionalidades
 
-- Agregar tareas con el botón o con Enter.
-- Evitar tareas vacías o repetidas, aunque cambien las mayúsculas.
-- Marcar tareas como hechas y ver cuántas siguen pendientes.
-- Borrar una tarea o limpiar la lista.
+- Agregar tareas desde el botón o presionando Enter.
+- Validar que la tarea no esté vacía ni repetida.
+- Marcar tareas como completadas y consultar el contador de pendientes.
+- Eliminar una tarea o vaciar la lista.
 - Guardar las tareas en el almacenamiento local del navegador.
 - Pruebas de interfaz con React Testing Library.
 
@@ -15,7 +15,7 @@ Lista de tareas hecha con **React**. Proyecto de práctica del curso FullStack e
 
 React 18 · Context API · Hooks · styled-components · Jest · React Testing Library
 
-## Cómo correrlo
+## Ejecutar en local
 
 ```bash
 git clone https://github.com/Aguszs/react.git
@@ -24,8 +24,8 @@ npm install
 npm start
 ```
 
-Para ejecutar las pruebas: `npm test`. Para generar la versión de producción: `npm run build`.
+Para ejecutar las pruebas, usá `npm test`. Para generar la versión de producción, usá `npm run build`.
 
 ## Alcance
 
-La lista se guarda en este navegador. No hay cuentas ni sincronización entre dispositivos; si se borra el almacenamiento del sitio, también se borran las tareas guardadas.
+Las tareas se guardan en el navegador actual. La aplicación no tiene cuentas ni sincronización entre dispositivos; si se borra el almacenamiento del sitio, también se eliminan las tareas guardadas.
